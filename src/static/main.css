@@ -6,3 +6,12 @@
 .custom-text {
 	color: orange;
 }
+
+.btn-primary {
+	background-color: orange !important;
+	border: none !important;
+}
+
+.btn-primary:hover {
+	background-color: orangered !important;
+}
