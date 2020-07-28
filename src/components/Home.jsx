@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faTwitter, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 	return (
@@ -14,15 +15,15 @@ const Home = () => {
 			/>
 			<div className='h3 card-header'>Robert (Bobby) Olejnik</div>
 			<div className='card-body'>
-				<div className='card-title h6 text-muted'>
-					Position <p className='card-text h5 text-white '>Full Stack Developer</p>
+				<div className='card-title text-muted'>
+					Position <p className='card-text text-white '>Full Stack Developer</p>
 				</div>
-				<div className='card-title h6 text-muted'>
-					Phone<div className='card-text h5 text-white'>+44745011355</div>
+				<div className='card-title text-muted'>
+					Phone<div className='card-text text-white'>+44745011355</div>
 				</div>
-				<div className='card-title h6 text-muted'>
+				<div className='card-title text-muted'>
 					Email<div className='card-text'>
-						<a className='text-white h5' href='mailto:bobby@olejnik.dev'>
+						<a className='text-white' href='mailto:bobby@olejnik.dev'>
 							bobby@olejnik.dev
 						</a>
 					</div>
@@ -41,7 +42,9 @@ const Home = () => {
 						<FontAwesomeIcon icon={faFile} className='text-white mr-3' size='2x' />
 					</a>
 				</div>
-				<button className='btn btn-lg btn-block btn-primary'>Enter Page</button>
+				<Link className='' to='/book'>
+					<button className='btn btn-lg btn-block btn-primary'>Book Consultation</button>
+				</Link>
 			</div>
 		</div>
 	);
