@@ -1,6 +1,7 @@
 /* global gapi */
 import React, { useState, useEffect } from 'react';
 import keys from '../calendar-config.js';
+import moment from 'moment';
 
 const BookEvent = () => {
 	const gapi = window.gapi;
@@ -12,17 +13,17 @@ const BookEvent = () => {
 	const DISCOVERY_DOCS = [
 		'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
 	];
-	const SCOPES = 'https://www.googleapis.com/auth/calendar.events';
+	const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
 
 	const [
 		data,
 		setData,
 	] = useState({
-		name    : '',
-		email   : '',
-		subject : '',
-		date    : '',
-		time    : '',
+		name      : '',
+		email     : '',
+		subject   : '',
+		startTime : moment(new Date()).toISOString(),
+		endTime   : moment(new Date()).add(1, 'h').toISOString(),
 	});
 
 	const handleChange = (e) => {
@@ -49,29 +50,54 @@ const BookEvent = () => {
 			gapi.auth2.getAuthInstance().signIn().then(() => {
 				const event = {
 					summary     : data.subject,
-					description : `Website Booking by ${data.name}`,
+					description : `Event booked by ${data.name}`,
 					start       : {
-						dateTime : `${data.date}T${data.time}`,
-						timeZone : `GMT`,
+						dateTime : data.startTime,
+						timeZone : 'Europe/London',
 					},
 					end         : {
-						dateTime : `${data.date}T${data.time + 2}`,
-						timeZone : `GMT`,
+						dateTime : data.endTime,
+						timeZone : 'Europe/London',
 					},
 					attendees   : [
-						{ email: 'bobby@olejnik.dev' },
 						{ email: data.email },
+						{ email: 'bobby@olejnik.dev' },
 					],
 					reminders   : {
 						useDefault : false,
 						overrides  : [
-							{ method: 'popup', minutes: 24 * 60 },
+							{ method: 'email', minutes: 24 * 60 * 7 },
 							{ method: 'email', minutes: 24 * 60 },
 							{ method: 'email', minutes: 10 },
-							{ method: 'popup', minutes: 10 },
 						],
 					},
 				};
+
+				// const event = {
+				// 	summary     : data.subject,
+				// 	description : `Website Booking by ${data.name}`,
+				// 	start       : {
+				// 		dateTime : `${data.date}T${data.time}`,
+				// 		timeZone : `Europe/London`,
+				// 	},
+				// 	end         : {
+				// 		dateTime : `${data.date}T${data.time}`,
+				// 		timeZone : `Europe/London`,
+				// 	},
+				// 	attendees   : [
+				// 		{ email: 'bobby@olejnik.dev' },
+				// 		{ email: data.email },
+				// 	],
+				// 	reminders   : {
+				// 		useDefault : false,
+				// 		overrides  : [
+				// 			{ method: 'popup', minutes: 24 * 60 },
+				// 			{ method: 'email', minutes: 24 * 60 },
+				// 			{ method: 'email', minutes: 10 },
+				// 			{ method: 'popup', minutes: 10 },
+				// 		],
+				// 	},
+				// };
 
 				const request = gapi.client.calendar.events.insert({
 					calendarId : 'primary',
@@ -133,36 +159,16 @@ const BookEvent = () => {
 					/>
 				</div>
 				<div className='form-group'>
-					<div className='row'>
-						<label htmlFor='date' className='col'>
-							Date
-						</label>
-						<label htmlFor='date' className='col'>
-							Time
-						</label>
-					</div>
-					<div className='row'>
-						<div className='col'>
-							<input
-								type='date'
-								className='form-control'
-								onChange={handleChange}
-								name='date'
-								value={data.date}
-								id='date'
-							/>
-						</div>
-						<div className='col'>
-							<input
-								type='time'
-								className='form-control'
-								onChange={handleChange}
-								name='time'
-								value={data.time}
-								id='time'
-							/>
-						</div>
-					</div>
+					<label htmlFor='date'>Date and Time</label>
+					<input
+						type='datetime-local'
+						className='form-control'
+						onChange={handleChange}
+						name='date'
+						min={new Date()}
+						defaultValue={data.dateTime}
+						id='date'
+					/>
 				</div>
 				<button onClick={handleSubmit} className='btn btn-block btn-primary'>
 					Submit
