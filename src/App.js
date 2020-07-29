@@ -10,12 +10,8 @@ function App (){
 	return (
 		<div className='container body d-flex justify-content-center align-items-center'>
 			<Switch>
-				<Route exact path='/'>
-					<Home />
-				</Route>
-				<Route path='/book'>
-					<BookEvent />
-				</Route>
+				<Route exact path='/' component={Home} />
+				<Route path='/book' component={BookEvent} />
 			</Switch>
 		</div>
 	);
