@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import keys from '../calendar-config.js';
 import moment from 'moment';
+import { useForm } from 'react-hook-form';
 
 const BookEvent = () => {
 	const gapi = window.gapi;
@@ -150,7 +151,7 @@ const BookEvent = () => {
 					</label>
 					<input
 						type='text'
-						placeholder='Please enter a subject'
+						placeholder='What would you like to talk about?'
 						className='form-control'
 						onChange={handleChange}
 						name='subject'
@@ -165,14 +166,15 @@ const BookEvent = () => {
 						className='form-control'
 						onChange={handleChange}
 						name='date'
-						min={new Date()}
 						defaultValue={data.dateTime}
 						id='date'
 					/>
 				</div>
-				<button onClick={handleSubmit} className='btn btn-block btn-primary'>
-					Submit
-				</button>
+				<div className='form-group'>
+					<button onClick={handleSubmit} className='btn btn-block btn-primary'>
+						Submit
+					</button>
+				</div>
 			</form>
 		</div>
 	);
